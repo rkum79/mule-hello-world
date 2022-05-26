@@ -14,6 +14,9 @@
 		<munit.version>2.2.4</munit.version>
 		<http.connector.version>1.5.4</http.connector.version>
 		<sockets.connector.version>1.1.5</sockets.connector.version>
+                <sonar.organization>rkum79</sonar.organization>
+                <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.sources>./src</sonar.sources>
 	</properties>
 	<scm>
 		<connection>scm:git:https://github.com/asoyanke/hello-world.git</connection>
