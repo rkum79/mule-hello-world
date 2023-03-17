@@ -1,6 +1,10 @@
 name: Parallel Jobs with Matrix Strategy
 
-on: [push]
+on:
+  push:
+    branches:
+      - develop
+
 
 jobs:
   group-1:
