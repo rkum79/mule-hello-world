@@ -1,0 +1,28 @@
+{
+  "conditions": {
+    "group1": {
+      "job_1_v1": true,
+      "job_2_v1": false,
+      "job_3_v1": true,
+      "job_4_v1": true,
+      "job_5_v1": false,
+      "job_6_v1": true,
+      "job_7_v1": false,
+      "job_8_v1": true,
+      "job_9_v1": true,
+      "job_10_v1": true
+    },
+    "group2": {
+      "job_1_v2": true,
+      "job_2_v2": false,
+      "job_3_v2": true,
+      "job_4_v2": true,
+      "job_5_v2": false,
+      "job_6_v2": true,
+      "job_7_v2": false,
+      "job_8_v2": true,
+      "job_9_v2": true,
+      "job_10_v2": true
+    }
+  }
+}
