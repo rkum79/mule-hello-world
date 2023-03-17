@@ -1,7 +1,19 @@
 {
   "conditions": {
-    "group1": true,
-    "group2": false,
-    "group3": true
+    "group1": {
+      "job_1": true,
+      "job_2": false,
+      "job_3": true
+    },
+    "group2": {
+      "job_4": false,
+      "job_5": true,
+      "job_6": false
+    },
+    "group3": {
+      "job_7": true,
+      "job_8": true,
+      "job_9": true
+    }
   }
 }
