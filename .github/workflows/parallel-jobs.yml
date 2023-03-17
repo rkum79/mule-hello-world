@@ -1,0 +1,55 @@
+name: Parallel Workflow with JSON
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  
+jobs:
+  job-1:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variable: ${{ fromJSON(needs.json-data.outputs.variables) }}
+    needs: json-data
+    steps:
+      - name: Step 1
+        run: echo "Job 1 with variable ${{ matrix.variable }}"
+      - name: Step 2
+        run: echo "Job 1 finished with variable ${{ matrix.variable }}"
+
+  job-2:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variable: ${{ fromJSON(needs.json-data.outputs.variables) }}
+    needs: json-data
+    steps:
+      - name: Step 1
+        run: echo "Job 2 with variable ${{ matrix.variable }}"
+      - name: Step 2
+        run: echo "Job 2 finished with variable ${{ matrix.variable }}"
+
+  json-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read JSON file
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const data = require('.github/workflows/repos.json');
+            console.log(JSON.stringify({ variables: data.variables }));
+          writeFile: |
+            ./output.json
+        id: write-json
+      - name: Read JSON output
+        id: read-json
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const content = require('./output.json');
+            console.log(JSON.stringify(content));
+          result-encoding: string
+      - name: Output JSON variables
+        run: echo "${{ steps.read-json.outputs.result }}"
+        id: json-data
