@@ -1,32 +1,59 @@
-name: Parallel Jobs Workflow
+name: My Workflow
 
 on: [push]
 
 jobs:
   group1:
-    name: Group 1
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        job: [job_1_v1, job_2_v1, job_3_v1, job_4_v1, job_5_v1, job_6_v1, job_7_v1, job_8_v1, job_9_v1, job_10_v1]
+        job1: ['true', 'false']
+        job2: ['true', 'false']
+        job3: ['true', 'false']
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2
-    - name: Run Job
-      if: ${{ fromJson(file('./job_conditions.json')).conditions.group1[ matrix.job ] }}
-      run: echo "Running Job ${{ matrix.job }} for Group 1"
-      # Add additional steps for job_1_v1, job_2_v1, etc. as needed
-      
+      - name: Parse JSON
+        run: |
+          # Parse the JSON file and extract job names and values
+          # Assumes that the JSON file is in the root of the repository
+          JOBS=$(jq -r '.jobs | to_entries | .[] | [.key, .value] | @tsv' repos.json)
+          echo "$JOBS" > jobs.tsv
+
+      - name: Trigger Jobs
+        if: always()
+        id: trigger-jobs
+        run: |
+          # Trigger jobs based on their values
+          while IFS=$'\t' read -r job value; do
+            if [ "$value" = "true" ]; then
+              echo "Triggering $job job..."
+              gh job run $job -b $value
+            fi
+          done < jobs.tsv
+
   group2:
-    name: Group 2
+    needs: group1
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        job: [job_1_v2, job_2_v2, job_3_v2, job_4_v2, job_5_v2, job_6_v2, job_7_v2, job_8_v2, job_9_v2, job_10_v2]
+        job4: ['true', 'false']
+        job5: ['true', 'false']
+        job6: ['true', 'false']
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2
-    - name: Run Job
-      if: ${{ fromJson(file('./job_conditions.json')).conditions.group2[ matrix.job ] }}
-      run: echo "Running Job ${{ matrix.job }} for Group 2"
-      # Add additional steps for job_1_v2, job_2_v2, etc. as needed
+      - name: Parse JSON
+        run: |
+          # Parse the JSON file and extract job names and values
+          # Assumes that the JSON file is in the root of the repository
+          JOBS=$(jq -r '.jobs | to_entries | .[] | [.key, .value] | @tsv' repos.json)
+          echo "$JOBS" > jobs.tsv
+
+      - name: Trigger Jobs
+        if: always()
+        id: trigger-jobs
+        run: |
+          # Trigger jobs based on their values
+          while IFS=$'\t' read -r job value; do
+            if [ "$value" = "true" ]; then
+              echo "Triggering $job job..."
+              gh job run $job -b $value
+            fi
+          done < jobs.tsv
