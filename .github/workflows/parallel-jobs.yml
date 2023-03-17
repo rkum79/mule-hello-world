@@ -1,28 +1,33 @@
-name: Parallel Workflow with JSON
+name: Parallel Workflow with JSON and Matrix
 
 on:
   push:
     branches: [main]
-  workflow_dispatch:
-  
+
 jobs:
   job-1:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         variable: ${{ fromJSON(needs.json-data.outputs.variables) }}
+        include:
+          - variable: job1-status
+            condition: ${{ matrix.variable.job1-status == true }}
+
     needs: json-data
     steps:
       - name: Step 1
         run: echo "Job 1 with variable ${{ matrix.variable }}"
-      - name: Step 2
-        run: echo "Job 1 finished with variable ${{ matrix.variable }}"
 
   job-2:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         variable: ${{ fromJSON(needs.json-data.outputs.variables) }}
+        include:
+          - variable: job3-status
+            condition: ${{ matrix.variable.job3-status == true }}
+
     needs: json-data
     steps:
       - name: Step 1
@@ -37,7 +42,7 @@ jobs:
         uses: actions/github-script@v4
         with:
           script: |
-            const data = require('.github/workflows/repos.json');
+            const data = require('./repos.json');
             console.log(JSON.stringify({ variables: data.variables }));
           writeFile: |
             ./output.json
