@@ -1,7 +1,14 @@
+#{
+#  "job1-status": "true",
+#  "job2-status": "true",
+#  "job3-status": "false",
+#  "job4-status": "true",
+#  "job5-status": "false"
+#}
 {
-  "job1-status": "true",
-  "job2-status": "true",
-  "job3-status": "false",
-  "job4-status": "true",
-  "job5-status": "false"
+  "conditions": {
+    "group1": true,
+    "group2": false,
+    "group3": true
+  }
 }
