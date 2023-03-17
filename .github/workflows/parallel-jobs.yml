@@ -1,64 +1,37 @@
-name: Parallel Workflow with JSON and Matrix
+name: Parallel Jobs with Matrix Strategy
 
-on:
-  push:
-    branches: [main]
+on: [push]
 
 jobs:
-  job-1:
-    runs-on: ubuntu-latest
+  group-1:
     strategy:
       matrix:
-        variable: ${{ fromJSON(needs.json-data.outputs.variables) }}
-        include:
-          - variable: value1
-            if: ${{ matrix.variable.value1 == true }}
-          - variable: value2
-            if: ${{ matrix.variable.value2 == true }}
-    needs: json-data
+        group: [1, 2, 3]
+    runs-on: ubuntu-latest
     steps:
       - name: Step 1
-        run: echo "Job 1 with variable ${{ matrix.variable }}"
+        run: echo "Group 1, Variable ${{ matrix.group }} Step 1"
       - name: Step 2
-        run: echo "Job 1 finished with variable ${{ matrix.variable }}"
+        run: echo "Group 1, Variable ${{ matrix.group }} Step 2"
 
-  job-2:
-    runs-on: ubuntu-latest
+  group-2:
     strategy:
       matrix:
-        variable: ${{ fromJSON(needs.json-data.outputs.variables) }}
-        include:
-          - variable: value3
-            if: ${{ matrix.variable.value3 == true }}
-          - variable: value4
-            if: ${{ matrix.variable.value4 == true }}
-    needs: json-data
-    steps:
-      - name: Step 1
-        run: echo "Job 2 with variable ${{ matrix.variable }}"
-      - name: Step 2
-        run: echo "Job 2 finished with variable ${{ matrix.variable }}"
-
-  json-data:
+        group: [4, 5, 6]
     runs-on: ubuntu-latest
     steps:
-      - name: Read JSON file
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const data = require('./repos.json');
-            console.log(JSON.stringify({ variables: data.variables }));
-          writeFile: |
-            ./output.json
-        id: write-json
-      - name: Read JSON output
-        id: read-json
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const content = require('./output.json');
-            console.log(JSON.stringify(content));
-          result-encoding: string
-      - name: Output JSON variables
-        run: echo "${{ steps.read-json.outputs.result }}"
-        id: json-data
+      - name: Step 1
+        run: echo "Group 2, Variable ${{ matrix.group }} Step 1"
+      - name: Step 2
+        run: echo "Group 2, Variable ${{ matrix.group }} Step 2"
+
+  group-3:
+    strategy:
+      matrix:
+        group: [7, 8, 9]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1
+        run: echo "Group 3, Variable ${{ matrix.group }} Step 1"
+      - name: Step 2
+        run: echo "Group 3, Variable ${{ matrix.group }} Step 2"
