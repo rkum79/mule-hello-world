@@ -15,7 +15,7 @@ jobs:
         run: |
           # Parse the JSON file and extract job names and values
           # Assumes that the JSON file is in the root of the repository
-          JOBS=$(jq -r '.jobs | to_entries | .[] | [.key, .value] | @tsv' repos.json)
+          JOBS=$(jq -r '.jobs | to_entries | .[] | [.key, .value] | @tsv' ./repos.json)
           echo "$JOBS" > jobs.tsv
 
       - name: Trigger Jobs
@@ -43,7 +43,7 @@ jobs:
         run: |
           # Parse the JSON file and extract job names and values
           # Assumes that the JSON file is in the root of the repository
-          JOBS=$(jq -r '.jobs | to_entries | .[] | [.key, .value] | @tsv' repos.json)
+          JOBS=$(jq -r '.jobs | to_entries | .[] | [.key, .value] | @tsv' ./repos.json)
           echo "$JOBS" > jobs.tsv
 
       - name: Trigger Jobs
