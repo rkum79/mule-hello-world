@@ -12,9 +12,9 @@ jobs:
         variable: ${{ fromJSON(needs.json-data.outputs.variables) }}
         include:
           - variable: value1
-            condition: ${{ matrix.variable.value1 == true }}
+            if: ${{ matrix.variable.value1 == true }}
           - variable: value2
-            condition: ${{ matrix.variable.value2 == true }}
+            if: ${{ matrix.variable.value2 == true }}
     needs: json-data
     steps:
       - name: Step 1
@@ -29,9 +29,9 @@ jobs:
         variable: ${{ fromJSON(needs.json-data.outputs.variables) }}
         include:
           - variable: value3
-            condition: ${{ matrix.variable.value3 == true }}
+            if: ${{ matrix.variable.value3 == true }}
           - variable: value4
-            condition: ${{ matrix.variable.value4 == true }}
+            if: ${{ matrix.variable.value4 == true }}
     needs: json-data
     steps:
       - name: Step 1
