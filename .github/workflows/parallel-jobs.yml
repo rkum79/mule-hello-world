@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  job1-status:
+  job-1:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -13,13 +13,16 @@ jobs:
         include:
           - variable: value1
             condition: ${{ matrix.variable.value1 == true }}
-
+          - variable: value2
+            condition: ${{ matrix.variable.value2 == true }}
     needs: json-data
     steps:
       - name: Step 1
         run: echo "Job 1 with variable ${{ matrix.variable }}"
+      - name: Step 2
+        run: echo "Job 1 finished with variable ${{ matrix.variable }}"
 
-  job3-status:
+  job-2:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,7 +30,8 @@ jobs:
         include:
           - variable: value3
             condition: ${{ matrix.variable.value3 == true }}
-
+          - variable: value4
+            condition: ${{ matrix.variable.value4 == true }}
     needs: json-data
     steps:
       - name: Step 1
