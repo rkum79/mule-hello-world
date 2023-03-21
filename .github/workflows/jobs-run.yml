@@ -23,3 +23,12 @@ jobs:
         masked: true
     - name: Show output
       run: echo "The time was ${{ env.test_value }}, ${{ env.test_array_0_value }}, ${{ env.test_obj_value1 }}"
+    - name: Show output details
+      run: |
+        echo job1 valuse : ${{ env.test_job1_value }}
+        echo job2 valuse : ${{ env.test_job2_value }}
+        echo job3 valuse : ${{ env.test_job3_value }}
+        echo job4 valuse : ${{ env.test_job4_value }}
+    
+
+
