@@ -1,0 +1,52 @@
+name: Extract variables and run jobs
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install -y jq
+
+    - name: Extract variables from JSON
+      id: extract-variables
+      run: |
+        export MY_JSON_FILE=repos.json
+        export MY_KEY=$(jq -r '.key' $MY_JSON_FILE)
+        export MY_VALUE=$(jq -r '.value' $MY_JSON_FILE)
+
+    - name: Show extracted variables
+      run: |
+        echo "Key: $MY_KEY"
+        echo "Value: $MY_VALUE"
+
+  job1:
+    needs: extract
+    if: ${{ env.job1 == "true" }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Job 1
+      run: echo "Job 1 is running"
+
+  job2:
+    needs: extract
+    if: ${{ env.job2 == "false" }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Job 2
+      run: echo "Job 2 is running"
+
+  job3:
+    needs: extract
+    if: ${{ env.job3 == "false" }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Job 2
+      run: echo "Job 2 is running"
