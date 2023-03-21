@@ -19,34 +19,16 @@ jobs:
       id: extract-variables
       run: |
         export MY_JSON_FILE=repos.json
-        export MY_KEY=$(jq -r '.key' $MY_JSON_FILE)
-        export MY_VALUE=$(jq -r '.value' $MY_JSON_FILE)
+        export KEYS=$(jq -r 'keys[]' $MY_JSON_FILE)
+        for KEY in $KEYS; do
+          export VALUE=$(jq -r ".$KEY" $MY_JSON_FILE)
+          echo "Setting $KEY=$VALUE as environment variable"
+          env | grep $KEY || export $KEY="$VALUE"
+        done
 
-    - name: Show extracted variables
+    - name: Use extracted variables
       run: |
-        echo "Key: $MY_KEY"
-        echo "Value: $MY_VALUE"
+        echo "Variable1: $job1"
+        echo "Variable2: $job2"
+        echo "Variable3: $job3"
 
-  job1:
-    needs: extract
-    if: ${{ env.job1 == "true" }}
-    runs-on: ubuntu-latest
-    steps:
-    - name: Job 1
-      run: echo "Job 1 is running"
-
-  job2:
-    needs: extract
-    if: ${{ env.job2 == "false" }}
-    runs-on: ubuntu-latest
-    steps:
-    - name: Job 2
-      run: echo "Job 2 is running"
-
-  job3:
-    needs: extract
-    if: ${{ env.job3 == "false" }}
-    runs-on: ubuntu-latest
-    steps:
-    - name: Job 2
-      run: echo "Job 2 is running"
