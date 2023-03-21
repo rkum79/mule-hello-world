@@ -19,25 +19,25 @@ jobs:
       uses: rgarcia-phi/json-to-variables@v1.1.0
       with:
         filename: 'repos.json'
-        prefix: ''
+        prefix: 'webmule'
         masked: false
     - name: Show output details
       run: |
-        echo job1 valuse : ${{ env.job1-sys-api }}
-        echo job2 valuse : ${{ env.job2-sys-api }}
-        echo job3 valuse : ${{ env.job3-sys-api }}
-        echo job4 valuse : ${{ env.job4-sys-api }}
+        echo job1 valuse : ${{ env.webmule_job1-sys-api }}
+        echo job2 valuse : ${{ env.webmule_job2-sys-api }}
+        echo job3 valuse : ${{ env.webmule_job3-sys-api }}
+        echo job4 valuse : ${{ env.webmule_job4-sys-api }}
     
     - name: Show output details job1
-      if: env.test_job1-sys-api == 'true'
+      if: env.webmule_job1-sys-api == 'true'
       run: |
-        echo job1 valuse : ${{ env.test_job1-sys-api }}
+        echo job1 valuse : ${{ env.webmule_job1-sys-api }}
 
     - name: Show output details job2
-      if: env.test_job2-sys-api == 'true'
+      if: env.webmule_job2-sys-api == 'true'
       run: |
-        echo job2 valuse : ${{ env.test_job2-sys-api }}
+        echo job2 valuse : ${{ env.webmule_job2-sys-api }}
     - name: Show output details job3
-      if: env.test_job3-sys-api == 'false'
+      if: env.webmule_job3-sys-api == 'true'
       run: |
-        echo job3 valuse : ${{ env.test_job3-sys-api }}        
+        echo job3 valuse : ${{ env.webmule_job3-sys-api }}        
