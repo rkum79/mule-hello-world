@@ -1,8 +1,8 @@
 {
-    "job1": true,
-    "job2": false,
-    "job3": true,
-    "job4": false,
-    "job5": true,
-    "job6": false
+    "job1-sys-api": true,
+    "job2-sys-api": false,
+    "job3-sys-api": true,
+    "job4-sys-api": false,
+    "job5-sys-api": true,
+    "job6-sys-api": false
 }
