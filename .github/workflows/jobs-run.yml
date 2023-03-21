@@ -23,7 +23,7 @@ jobs:
         for KEY in $KEYS; do
           export VALUE=$(jq -r ".$KEY" $MY_JSON_FILE)
           echo "Setting $KEY=$VALUE as environment variable"
-          env | grep $KEY || export $KEY="$VALUE"
+          env | grep $KEY || export $KEY="$VALUE" >> $GITHUB_OUTPUT
         done
 
     - name: Use extracted variables
