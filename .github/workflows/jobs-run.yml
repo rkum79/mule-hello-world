@@ -15,20 +15,11 @@ jobs:
     - name: Install jq
       run: sudo apt-get update && sudo apt-get install -y jq
 
-    - name: Extract variables from JSON
-      id: extract-variables
-      run: |
-        export MY_JSON_FILE=repos.json
-        export KEYS=$(jq -r 'keys[]' $MY_JSON_FILE)
-        for KEY in $KEYS; do
-          export VALUE=$(jq -r ".$KEY" $MY_JSON_FILE)
-          echo "Setting $KEY=$VALUE as environment variable"
-          env | grep $KEY || export $KEY="$VALUE" >> $GITHUB_OUTPUT
-        done
-
-    - name: Use extracted variables
-      run: |
-        echo "Variable1: $job1"
-        echo "Variable2: $job2"
-        echo "Variable3: $job3"
-
+    - name: JSON to variables
+      uses: rgarcia-phi/json-to-variables@v1.1.0
+      with:
+        filename: 'repos.json'
+        prefix: test
+        masked: true
+    - name: Show output
+      run: echo "The time was ${{ env.test_value }}, ${{ env.test_array_0_value }}, ${{ env.test_obj_value1 }}"
